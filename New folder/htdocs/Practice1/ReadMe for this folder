@@ -1,0 +1,9 @@
+This is how to create a registration form.
+
+Go to the file registration.php
+For the form to work, the following files are necessary:
+  registration.php
+  config.php
+  process.php 
+The css and the js codes are in those folders, but they are already linked in the registration.php file.
+The bootstrap-5.3.7-dist.zip is a zip file with the css and the js
