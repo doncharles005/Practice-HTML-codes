@@ -1,0 +1,12 @@
+The register.php file is the file with the registration code.
+The registration.php file is also working, and it sends the user information to the MySQL database also.
+The database is practice1, and the table is users.This can be set in http://localhost/phpmyadmin.
+
+The registration forms are working. Let the user register in the register.php file, then then can login with the login.php form. 
+This creates a session for the user. It has a link to logout.
+
+This works if XAMPP is installed and Apache and MySQL are running. 
+
+The registration.php file is viewed from http://localhost/practice1/registration.php
+The register.php file is viewed from http://localhost/practice1/register.php
+The login.php file is viewed from http://localhost/practice1/login.php
