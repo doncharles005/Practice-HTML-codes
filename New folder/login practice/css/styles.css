@@ -1,0 +1,144 @@
+/* Reset and Background */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #603abc !important;
+    font-family: 'Arial', sans-serif;
+}
+
+/* User Card Styling */
+.user_card {
+    height: 500px;
+    width: 350px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background: #f39c12;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px 20px 20px; /* Added top padding to prevent clipping */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    overflow: visible; /* Critical: allows logo to stick out */
+}
+
+/* Logo Container – Centered on Top, Fully Visible */
+.brand_logo_container {
+    position: absolute;
+    top: -85px; /* Pulls logo up, but not too far */
+    left: 50%;
+    transform: translateX(-50%);
+    height: 150px;
+    width: 150px;
+    background: #603abc;
+    border-radius: 50%;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    border: 3px solid #000; /* 🔲 Black border around the circular container */
+    transition: transform 0.2s;
+}
+
+/* Logo Image – Add border and ensure fit */
+.brand_logo {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    border: 2px solid white; /* Inner white border for contrast */
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+}
+
+/* Optional: Slight hover effect */
+.brand_logo_container:hover {
+    transform: translateX(-50%) scale(1.05);
+}
+
+/* Form Container – Pushed down below the logo */
+.form_container {
+    margin-top: 130px; /* Matches how far logo sticks up */
+    flex: 1;
+}
+
+/* Input Group Styling */
+.input-group-append {
+    margin: 0;
+}
+
+.input-group-text {
+    background: #c0392b !important;
+    color: white !important;
+    border: 0 !important;
+    border-radius: 0.25rem 0 0 0.25rem !important;
+}
+
+.form-control {
+    border-radius: 0 0.25rem 0.25rem 0 !important;
+    border: 1px solid #ced4da;
+    padding: 12px;
+}
+
+/* Focus Styling */
+.input_user:focus {
+    box-shadow: none !important;
+    outline: 0 !important;
+    border-color: #c0392b;
+}
+
+/* Checkbox – Add black border */
+.custom-control-input[type="checkbox"] {
+    border: 1px solid #000 !important; /* Black border */
+    background-color: white;
+}
+
+.custom-control-input:checked {
+    background-color: #c0392b !important;
+    border-color: #c0392b !important;
+}
+
+.custom-control-label::before {
+    border: 1px solid #000 !important; /* Ensure border is visible */
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #c0392b !important;
+    border-color: #c0392b !important;
+}
+
+/* Login Button */
+.login_btn {
+    width: 100%;
+    background: #c0392b !important;
+    color: white !important;
+    border: none;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.login_btn:hover {
+    background: #a02c21 !important;
+    transform: translateY(-2px);
+}
+
+/* Links Styling */
+.links a,
+.d-flex a {
+    color: white;
+    text-decoration: none;
+}
+
+.d-flex a:hover {
+    text-decoration: underline;
+}
+
+/* Fix typo in class names */
+.jusitify-content-center {
+    justify-content: center !important;
+}
