@@ -1,0 +1,5 @@
+This is the practice code for the digital wallet. This allows a person to register, login, deposit, send a transaction, withdraw, view past transactions, view account balance. 
+XAMPP has to be installed.
+The Apache and MySQL has to be launched from XAMPP.
+The files are PHP
+The MySQL tables have to be created
