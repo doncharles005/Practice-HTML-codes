@@ -1,0 +1,62 @@
+These are the SQL commands to create the tables
+
+-- Create users table
+CREATE TABLE users (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_active TINYINT(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Create wallets table
+CREATE TABLE wallets (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(11) NOT NULL,
+    balance DECIMAL(20,8) DEFAULT 0.00000000,
+    address VARCHAR(64) NOT NULL UNIQUE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX (user_id),
+    INDEX (address)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Create transactions table
+CREATE TABLE transactions (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    from_address VARCHAR(64) NOT NULL,
+    to_address VARCHAR(64) NOT NULL,
+    amount DECIMAL(20,8) NOT NULL,
+    transaction_hash VARCHAR(64) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('pending', 'confirmed', 'failed') DEFAULT 'pending',
+    INDEX (from_address),
+    INDEX (to_address),
+    INDEX (transaction_hash)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Create deposits table
+CREATE TABLE deposits (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(11) NOT NULL,
+    amount DECIMAL(20,8) NOT NULL,
+    status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP NULL DEFAULT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Create withdrawals table
+CREATE TABLE withdrawals (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(11) NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    paypal_email VARCHAR(255) NOT NULL,
+    status ENUM('pending', 'processed', 'failed') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+remember the project folder has to go in htdocs
