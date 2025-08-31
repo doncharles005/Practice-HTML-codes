@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+  <style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: linear-gradient(135deg, #4A90E2, #50E3C2);
+    color: white;
+    padding: 50px;
+    margin: 0;
+  }
+  .container {
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    margin-top: 50px;
+  }
+  h1 {
+    color: #4A90E2;
+  }
+  button {
+    background: #4A90E2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  button:hover {
+    background: #357ABD;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome!</h1>
+    <p>You have successfully logged in.</p>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+ 
+  <script>
+    function logout() {
+      // 🔗 Redirect to your custom website
+      const customLogoutUrl = "https://www.impulseresponseenterprises.cc/radio";
+      window.location.href = customLogoutUrl;
+    }
+  </script>
+
+  
+</body>
+</html>

@@ -1,0 +1,64 @@
+function doGet() {
+  // Use createTemplateFromFile if you plan to inject variables later
+  // Otherwise, createHtmlOutputFromFile is simpler
+  return HtmlService.createTemplateFromFile('index')
+      .evaluate() // This renders the HTML template
+      .setTitle('Secure Login & Register')
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+function registerUser(email, username, password) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Users");
+  if (!sheet) {
+    return "Error: Sheet 'Users' not found!";
+  }
+
+  var data = sheet.getDataRange().getValues();
+
+  // Normalize email
+  email = email.trim().toLowerCase();
+
+  // Check if email already exists (start from row 1 to skip headers)
+  for (var i = 1; i < data.length; i++) {
+    if (data[i][0] && data[i][0].toString().trim().toLowerCase() === email) {
+      return "Email already registered!";
+    }
+  }
+
+  // Append new user
+  sheet.appendRow([email, username, password]);
+  return "success";
+}
+
+function loginUser(email, password) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Users");
+  if (!sheet) {
+    return "Error: Users sheet not found!";
+  }
+
+  var data = sheet.getDataRange().getValues();
+
+  // Validate inputs
+  if (!email || !password) {
+    return "Error: Email or password cannot be empty!";
+  }
+
+  email = email.trim().toLowerCase();
+  password = password.trim();
+
+  // Search for matching user
+  for (var i = 1; i < data.length; i++) {
+    var storedEmail = data[i][0] ? data[i][0].toString().trim().toLowerCase() : '';
+    var storedPassword = data[i][2] ? data[i][2].toString().trim() : '';
+
+    if (storedEmail === email && storedPassword === password) {
+      // ✅ Correct: Render the welcome page and return its HTML content
+      var htmlOutput = HtmlService.createHtmlOutputFromFile('welcome')
+          .setTitle('Welcome')
+          .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+      return htmlOutput.getContent(); // Return raw HTML string
+    }
+  }
+
+  return "Incorrect email or password";
+}

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Login & Registration</title>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* Generalized Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #4A90E2, #50E3C2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      width: 100%;
+      max-width: 400px;
+      background: white;
+      padding: 25px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    h3 {
+      color: #4A90E2;
+      margin-bottom: 15px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      outline: none;
+    }
+    input:focus {
+      border-color: #4A90E2;
+      box-shadow: 0px 0px 5px rgba(74, 144, 226, 0.5);
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #4A90E2;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #357ABD;
+    }
+    .message {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .toggle {
+      color: #4A90E2;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+      display: block;
+    }
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      .container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Secure Login & Registration</h2>
+
+    <!-- Registration Form -->
+    <div id="registerForm">
+      <h3>Create an account</h3>
+      <input type="email" id="regEmail" placeholder="Enter your Email" required>
+      <input type="text" id="regUsername" placeholder="Choose a username" required>
+      <input type="password" id="regPassword" placeholder="Create a Password" required>
+      <button onclick="registerUser()">Register</button>
+      <p id="registerMessage" class="message"></p>
+      <span class="toggle" onclick="toggleForms()">Already have an account? Login here</span>
+    </div>
+
+    <!-- Login Form -->
+    <div id="loginForm" style="display: none;">
+      <h3>Login</h3>
+      <input type="email" id="loginEmail" placeholder="Enter your Email" required>
+      <input type="password" id="loginPassword" placeholder="Enter your Password" required>
+      <button onclick="loginUser()">Login</button>
+      <p id="loginMessage" class="message"></p>
+      <span class="toggle" onclick="toggleForms()">New user? Register here</span>
+    </div>
+  </div>
+
+  <script>
+    // Toggle between login and registration forms
+    function toggleForms() {
+      const registerForm = document.getElementById("registerForm");
+      const loginForm = document.getElementById("loginForm");
+      
+      if (registerForm.style.display === "none") {
+        registerForm.style.display = "block";
+        loginForm.style.display = "none";
+      } else {
+        registerForm.style.display = "none";
+        loginForm.style.display = "block";
+      }
+    }
+
+    // Register a new user
+    function registerUser() {
+      const email = document.getElementById("regEmail").value.trim();
+      const username = document.getElementById("regUsername").value.trim(); // Fixed: was regUserName
+      const password = document.getElementById("regPassword").value.trim();
+
+      if (!email || !username || !password) {
+        document.getElementById("registerMessage").innerText = "All fields are required!";
+        return;
+      }
+
+      // Correctly call Google Apps Script
+      google.script.run
+        .withSuccessHandler(function(response) {
+          if (response === "success") {
+            alert("You are registered successfully!");
+            toggleForms(); // Switch to login form
+          } else {
+            document.getElementById("registerMessage").innerText = response;
+          }
+        })
+        .withFailureHandler(function(error) {
+          document.getElementById("registerMessage").innerText = "Registration failed. Please try again.";
+          console.error("Registration error:", error);
+        })
+        .registerUser(email, username, password); // Ensure backend function name matches
+    }
+
+    // Login existing user
+    function loginUser() {
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      if (!email || !password) {
+        document.getElementById("loginMessage").innerText = "Please enter email and password!";
+        return;
+      }
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          // If response contains HTML (welcome page), inject it
+          if (response && typeof response === 'string' && response.includes('<!DOCTYPE html')) {
+            document.open();
+            document.write(response);
+            document.close();
+          } else {
+            // Otherwise, show error message
+            document.getElementById("loginMessage").innerText = response;
+          }
+        })
+        .withFailureHandler(function(error) {
+          document.getElementById("loginMessage").innerText = "Error logging in. Please try again.";
+          console.error("Login error:", error);
+        })
+        .loginUser(email, password); // Call server function
+    }
+  </script>
+</body>
+</html>
